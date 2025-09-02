@@ -1,0 +1,115 @@
+[
+    {
+        "name": "Low income family of 4",
+        "household": {
+            "size": 4,
+            "monthly_earned_income": 2500,
+            "monthly_unearned_income": 0,
+            "monthly_rent": 1500,
+            "state": "CA"
+        },
+        "options": {
+            "include_tanf": true,
+            "trigger_sua": false
+        }
+    },
+    {
+        "name": "Low income family of 4 (no TANF)",
+        "household": {
+            "size": 4,
+            "monthly_earned_income": 2500,
+            "monthly_unearned_income": 0,
+            "monthly_rent": 1500,
+            "state": "CA"
+        },
+        "options": {
+            "include_tanf": false,
+            "trigger_sua": false
+        }
+    },
+    {
+        "name": "Medium income family of 4",
+        "household": {
+            "size": 4,
+            "monthly_earned_income": 4000,
+            "monthly_unearned_income": 0,
+            "monthly_rent": 1500,
+            "state": "CA"
+        },
+        "options": {
+            "include_tanf": false,
+            "trigger_sua": false
+        }
+    },
+    {
+        "name": "Medium income with SUA",
+        "household": {
+            "size": 4,
+            "monthly_earned_income": 4000,
+            "monthly_unearned_income": 0,
+            "monthly_rent": 1500,
+            "state": "CA"
+        },
+        "options": {
+            "include_tanf": false,
+            "trigger_sua": true
+        }
+    },
+    {
+        "name": "Single parent with 2 kids",
+        "household": {
+            "size": 3,
+            "monthly_earned_income": 2000,
+            "monthly_unearned_income": 0,
+            "monthly_rent": 1200,
+            "state": "CA"
+        },
+        "options": {
+            "include_tanf": true,
+            "trigger_sua": false
+        }
+    },
+    {
+        "name": "Large family (6 people)",
+        "household": {
+            "size": 6,
+            "monthly_earned_income": 3500,
+            "monthly_unearned_income": 0,
+            "monthly_rent": 1800,
+            "state": "CA"
+        },
+        "options": {
+            "include_tanf": true,
+            "trigger_sua": false
+        }
+    },
+    {
+        "name": "With dependent care costs",
+        "household": {
+            "size": 4,
+            "monthly_earned_income": 3000,
+            "monthly_unearned_income": 0,
+            "monthly_rent": 1500,
+            "monthly_dependent_care": 600,
+            "state": "CA"
+        },
+        "options": {
+            "include_tanf": false,
+            "trigger_sua": false
+        }
+    },
+    {
+        "name": "Mixed income sources",
+        "household": {
+            "size": 4,
+            "monthly_earned_income": 2000,
+            "monthly_unearned_income": 500,
+            "monthly_rent": 1500,
+            "state": "CA"
+        },
+        "options": {
+            "include_tanf": false,
+            "trigger_sua": false
+        }
+    }
+]
