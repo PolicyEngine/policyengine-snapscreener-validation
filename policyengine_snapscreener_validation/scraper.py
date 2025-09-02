@@ -10,7 +10,8 @@ from .calculator import SNAPHousehold
 
 
 class SNAPScreenerScraper:
-    """Scrapes SNAP screener website for benefit calculations using Playwright"""
+    """Scrapes SNAP screener website for benefit calculations using
+    Playwright"""
 
     BASE_URL = "https://www.snapscreener.com"
 

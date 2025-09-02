@@ -4,7 +4,6 @@ import json
 
 import click
 from rich.console import Console
-from rich.table import Table
 
 from .calculator import SNAPHousehold
 from .validator import SNAPValidator
@@ -158,25 +157,29 @@ def examples():
 
     console.print("2. Without TANF:")
     console.print(
-        "   [cyan]snap-validate compare --income 2500 --rent 1500 --no-tanf[/cyan]"
+        "   [cyan]snap-validate compare --income 2500 "
+        "--rent 1500 --no-tanf[/cyan]"
     )
     console.print()
 
     console.print("3. With Standard Utility Allowance:")
     console.print(
-        "   [cyan]snap-validate compare --income 4000 --rent 1500 --with-sua[/cyan]"
+        "   [cyan]snap-validate compare --income 4000 "
+        "--rent 1500 --with-sua[/cyan]"
     )
     console.print()
 
     console.print("4. Using web scraper:")
     console.print(
-        "   [cyan]snap-validate compare --income 2500 --rent 1500 --scrape[/cyan]"
+        "   [cyan]snap-validate compare --income 2500 "
+        "--rent 1500 --scrape[/cyan]"
     )
     console.print()
 
     console.print("5. Batch validation:")
     console.print(
-        "   [cyan]snap-validate batch --scenarios tests/scenarios.json --output results.csv[/cyan]"
+        "   [cyan]snap-validate batch --scenarios "
+        "tests/scenarios.json --output results.csv[/cyan]"
     )
     console.print()
 

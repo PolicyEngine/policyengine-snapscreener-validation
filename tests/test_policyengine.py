@@ -1,7 +1,5 @@
 """Tests for PolicyEngine calculator wrapper"""
 
-import pytest
-
 from policyengine_snapscreener_validation import (
     PolicyEngineCalculator,
     SNAPHousehold,

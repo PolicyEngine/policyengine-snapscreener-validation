@@ -1,7 +1,5 @@
 """Tests for SNAP screener calculator"""
 
-import pytest
-
 from policyengine_snapscreener_validation.calculator import (
     SNAPHousehold,
     SNAPScreenerCalculator,

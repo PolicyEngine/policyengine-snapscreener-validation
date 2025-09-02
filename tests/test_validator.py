@@ -1,7 +1,6 @@
 """Tests for the validator module"""
 
 import pandas as pd
-import pytest
 
 from policyengine_snapscreener_validation import (
     SNAPHousehold,

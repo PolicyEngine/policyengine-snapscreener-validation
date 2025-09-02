@@ -1,6 +1,6 @@
 """Main validation class for comparing PolicyEngine with SNAP screener"""
 
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 import pandas as pd
 from tabulate import tabulate
@@ -124,30 +124,33 @@ class SNAPValidator:
         print("=" * 70)
 
         # Household info
-        print(f"\nHousehold Configuration:")
+        print("\nHousehold Configuration:")
         print(f"  Size: {comparison['household_size']} people")
         print(
-            f"  Monthly Employment Income: ${comparison['monthly_income']:,.0f}"
+            f"  Monthly Employment Income: "
+            f"${comparison['monthly_income']:,.0f}"
         )
         print(f"  Monthly Rent: ${comparison['monthly_rent']:,.0f}")
 
         # Results
-        print(f"\nBenefit Calculations:")
+        print("\nBenefit Calculations:")
         print(
             f"  SNAP Screener:  ${comparison['screener_benefit']:,.2f}/month"
         )
         print(
-            f"  PolicyEngine:   ${comparison['policyengine_benefit']:,.2f}/month"
+            f"  PolicyEngine:   "
+            f"${comparison['policyengine_benefit']:,.2f}/month"
         )
         print(f"  Difference:     ${comparison['difference']:+,.2f}")
 
         if comparison["tanf_included"]:
             print(
-                f"\n  ⚠️  PolicyEngine included TANF: ${comparison['tanf_amount']:,.2f}/month"
+                f"\n  ⚠️  PolicyEngine included TANF: "
+                f"${comparison['tanf_amount']:,.2f}/month"
             )
 
         # Detailed breakdown
-        print(f"\n--- SNAP Screener Details ---")
+        print("\n--- SNAP Screener Details ---")
         screener = comparison["screener_details"]
         print(f"  Gross Income:       ${screener.get('gross_income', 0):,.2f}")
         print(f"  Net Income:         ${screener.get('net_income', 0):,.2f}")
@@ -155,10 +158,11 @@ class SNAPValidator:
             f"  Max Allotment:      ${screener.get('max_allotment', 0):,.2f}"
         )
         print(
-            f"  Expected Contrib:   ${screener.get('expected_contribution', 0):,.2f}"
+            f"  Expected Contrib:   "
+            f"${screener.get('expected_contribution', 0):,.2f}"
         )
 
-        print(f"\n--- PolicyEngine Details ---")
+        print("\n--- PolicyEngine Details ---")
         pe = comparison["policyengine_details"]
         print(f"  Gross Income:       ${pe.get('gross_income', 0):,.2f}")
         print(f"  Net Income:         ${pe.get('net_income', 0):,.2f}")

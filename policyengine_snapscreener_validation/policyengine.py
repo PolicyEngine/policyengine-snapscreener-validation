@@ -1,6 +1,6 @@
 """PolicyEngine US calculation wrapper"""
 
-from typing import Dict, Optional
+from typing import Dict
 
 from policyengine_us import Simulation
 
