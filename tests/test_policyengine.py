@@ -51,7 +51,9 @@ class TestPolicyEngineCalculator:
             assert result_with["gross_income"] > result_without["gross_income"]
         else:
             # If no TANF, gross income should be the same
-            assert result_with["gross_income"] == result_without["gross_income"]
+            assert (
+                result_with["gross_income"] == result_without["gross_income"]
+            )
 
     def test_sua_trigger(self):
         """Test Standard Utility Allowance trigger"""
