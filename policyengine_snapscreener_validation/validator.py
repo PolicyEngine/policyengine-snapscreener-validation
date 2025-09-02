@@ -1,5 +1,6 @@
 """Main validation class for comparing PolicyEngine with SNAP screener"""
 
+from dataclasses import replace
 from typing import Dict, List
 
 import pandas as pd
@@ -41,22 +42,36 @@ class SNAPValidator:
         Returns:
             Dictionary with comparison results
         """
-        # Calculate using SNAP screener methodology
-        if use_scraper and self.scraper:
-            screener_result = self.scraper.calculate(household)
-            if screener_result is None:
-                # Fall back to calculator
-                screener_result = self.screener_calc.calculate(household)
-        else:
-            screener_result = self.screener_calc.calculate(household)
-
-        # Calculate using PolicyEngine
+        # First calculate using PolicyEngine to get TANF amount if applicable
         pe_result = self.policyengine_calc.calculate(
             household,
             year=year,
             include_tanf=include_tanf,
             trigger_sua=trigger_sua,
         )
+
+        # If PolicyEngine calculated TANF, add it to unearned income for screener
+        household_for_screener = household
+        if include_tanf and pe_result.get("tanf_benefit", 0) > 0:
+            # Create a modified household with TANF as unearned income
+            household_for_screener = replace(
+                household,
+                monthly_unearned_income=household.monthly_unearned_income
+                + (pe_result["tanf_benefit"] / 12),
+            )
+
+        # Calculate using SNAP screener methodology
+        if use_scraper and self.scraper:
+            screener_result = self.scraper.calculate(household_for_screener)
+            if screener_result is None:
+                # Fall back to calculator
+                screener_result = self.screener_calc.calculate(
+                    household_for_screener
+                )
+        else:
+            screener_result = self.screener_calc.calculate(
+                household_for_screener
+            )
 
         # Compare results
         comparison = {
@@ -69,7 +84,8 @@ class SNAPValidator:
                 pe_result.get("benefit_amount", 0)
                 - screener_result.get("benefit_amount", 0)
             ),
-            "tanf_included": pe_result.get("tanf_benefit", 0) > 0,
+            "tanf_included": include_tanf
+            and pe_result.get("tanf_benefit", 0) > 0,
             "tanf_amount": (
                 pe_result.get("tanf_benefit", 0) / 12
                 if pe_result.get("tanf_benefit", 0)

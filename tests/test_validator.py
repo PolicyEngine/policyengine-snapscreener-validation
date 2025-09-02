@@ -43,17 +43,28 @@ class TestSNAPValidator:
             self.household, include_tanf=False
         )
 
-        # With TANF should have lower SNAP benefits (or same if no TANF)
+        # When TANF is included, both calculators should account for it
+        # So the results should be comparable
         if result_with_tanf["tanf_included"]:
+            # PolicyEngine SNAP should be lower or equal when TANF is counted
             assert (
                 result_with_tanf["policyengine_benefit"]
                 <= result_without_tanf["policyengine_benefit"]
             )
+            # The screener benefit will also be lower since we add TANF as unearned income
+            assert (
+                result_with_tanf["screener_benefit"]
+                <= result_without_tanf["screener_benefit"]
+            )
         else:
-            # If no TANF, benefits should be the same
+            # If no TANF, both results should be the same
             assert (
                 result_with_tanf["policyengine_benefit"]
                 == result_without_tanf["policyengine_benefit"]
+            )
+            assert (
+                result_with_tanf["screener_benefit"]
+                == result_without_tanf["screener_benefit"]
             )
 
     def test_validate_single_with_sua(self):

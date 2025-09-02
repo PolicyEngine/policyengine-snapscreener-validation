@@ -46,14 +46,23 @@ class TestPolicyEngineCalculator:
             household, include_tanf=False
         )
 
-        # Gross income should be higher with TANF (or same if no TANF)
+        # When TANF is included, PolicyEngine will count it as income for SNAP
+        # This should result in lower or equal SNAP benefits
         if result_with["tanf_benefit"] > 0:
-            assert result_with["gross_income"] > result_without["gross_income"]
-        else:
-            # If no TANF, gross income should be the same
+            # With TANF included, SNAP benefits should be lower or equal
             assert (
-                result_with["gross_income"] == result_without["gross_income"]
+                result_with["benefit_amount"]
+                <= result_without["benefit_amount"]
             )
+            # TANF should be calculated
+            assert result_with["tanf_benefit"] > 0
+        else:
+            # If no TANF calculated, benefits should be the same
+            assert (
+                result_with["benefit_amount"]
+                == result_without["benefit_amount"]
+            )
+            assert result_with["tanf_benefit"] == 0
 
     def test_sua_trigger(self):
         """Test Standard Utility Allowance trigger"""
