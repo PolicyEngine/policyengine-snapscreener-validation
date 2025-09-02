@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e ".[dev]"
+    
+    - name: Install Playwright browsers
+      run: |
+        playwright install chromium
+        playwright install-deps chromium
+    
+    - name: Format check with black
+      run: |
+        black --check policyengine_snapscreener_validation/ tests/
+    
+    - name: Sort imports check with isort
+      run: |
+        isort --check-only policyengine_snapscreener_validation/ tests/
+    
+    - name: Lint with flake8
+      run: |
+        flake8 policyengine_snapscreener_validation/ tests/ --max-line-length=79 --extend-ignore=E203,W503
+    
+    - name: Test with pytest
+      run: |
+        pytest tests/ -v --cov=policyengine_snapscreener_validation --cov-report=xml --cov-report=term
+    
+    - name: Upload coverage to Codecov
+      if: matrix.python-version == '3.11'
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: false
+
+  validate-examples:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install package
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .
+    
+    - name: Run example script
+      run: |
+        python example.py
+    
+    - name: Test CLI
+      run: |
+        snap-validate --help
+        snap-validate examples
+        snap-validate compare --income 2500 --rent 1500 --json
+    
+    - name: Test batch validation
+      run: |
+        snap-validate batch --scenarios tests/scenarios.json --output results.csv
+        test -f results.csv
