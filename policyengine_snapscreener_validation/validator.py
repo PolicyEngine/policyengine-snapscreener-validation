@@ -50,7 +50,7 @@ class SNAPValidator:
             trigger_sua=trigger_sua,
         )
 
-        # If PolicyEngine calculated TANF, add it to unearned income for screener
+        # If PolicyEngine calculated TANF, add it as unearned income
         household_for_screener = household
         if include_tanf and pe_result.get("tanf_benefit", 0) > 0:
             # Create a modified household with TANF as unearned income

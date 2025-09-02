@@ -51,7 +51,7 @@ class TestSNAPValidator:
                 result_with_tanf["policyengine_benefit"]
                 <= result_without_tanf["policyengine_benefit"]
             )
-            # The screener benefit will also be lower since we add TANF as unearned income
+            # Screener benefit will be lower with TANF as unearned income
             assert (
                 result_with_tanf["screener_benefit"]
                 <= result_without_tanf["screener_benefit"]
